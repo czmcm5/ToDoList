@@ -25,6 +25,7 @@ const getLocalStorage = (): TodoItem[] => {
 
 export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
+
   useEffect(() => {
     setTodoList(getLocalStorage());
   }, []);

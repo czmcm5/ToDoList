@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import ThemeColor from "../../style/colorSet";
-import { useTodoContext } from "../context/TodoContext";
-import useAddList from "../hook/useAddList";
+import ThemeColor from "../../../style/colorSet";
+import { useTodoContext } from "../../../context/TodoContext";
+import useAddList from "../../../hook/useAddList";
 
 const AddTodo = () => {
   console.log("AddTodo 렌더링");

@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import ThemeColor from "../style/colorSet";
+import ThemeColor from "../../style/colorSet";
 import AddTodo from "./component/AddTodo";
 import Header from "./component/Header";
 import TaskList from "./component/TaskList";
-import { TodoProvider } from "./context/TodoContext";
+import { TodoProvider } from "../../context/TodoContext";
 
 const Home = () => {
   return (

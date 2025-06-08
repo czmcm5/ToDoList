@@ -19,7 +19,7 @@ const colorSets: Record<Colors, ColorSet> = {
   },
 };
 
-const selectColor = "yellow"; // "yellow" | "purple"
+const selectColor = "purple"; // "yellow" | "purple"
 const ThemeColor = colorSets[selectColor];
 
 export default ThemeColor;
