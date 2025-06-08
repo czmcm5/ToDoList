@@ -5,62 +5,53 @@ import useAddList from "../../../hook/useAddList";
 
 const AddTodo = () => {
   const { loadList } = useTodoContext();
-  const form = useAddList(loadList);
+  const { state, updateState, composition, ...utils } = useAddList(loadList);
 
   console.log("AddTodo 렌더링");
 
   return (
-    <FormBox>
-      <h1>Add Todo</h1>
-
+    <>
       <Label>제목</Label>
       <InputBox
-        value={form.title}
-        onChange={form.settingTitle}
+        name="title"
+        value={state.title}
+        onChange={updateState}
         placeholder="할 일"
       />
 
       <Label>내용</Label>
       <InputBox
-        value={form.content}
-        onChange={form.settingContent}
+        name="content"
+        value={state.content}
+        onChange={updateState}
         placeholder="상세내용"
       />
 
       <Label>해시태그</Label>
       <InputBox
-        value={form.hashTag}
-        onChange={form.settingHashTag}
-        onKeyDown={form.addHashTag}
-        onCompositionStart={form.handleCompositionStart}
-        onCompositionEnd={form.handleCompositionEnd}
+        name="hashTag"
+        value={state.hashTag}
+        onChange={updateState}
+        onKeyDown={utils.addHashTag}
+        onCompositionStart={composition.start}
+        onCompositionEnd={composition.end}
       />
 
       <TagsBox>
-        {form.hashTags.map((tag, idx) => (
-          <span key={idx} onClick={() => form.removeHashTag(idx)}>
+        {state.hashTags.map((tag, idx) => (
+          <span key={idx} onClick={() => utils.removeHashTag(idx)}>
             #{tag}
           </span>
         ))}
       </TagsBox>
 
-      <Btn onClick={form.submitForm}>+ 등록하기</Btn>
-    </FormBox>
+      <Btn onClick={utils.submitForm}>+ 등록하기</Btn>
+    </>
   );
 };
 
 export default AddTodo;
 
-const FormBox = styled.section`
-  position: relative;
-  flex: 1;
-  margin: 1rem;
-  padding: 1rem 2rem;
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: ${ThemeColor.boxShadow};
-  overflow: auto;
-`;
 const Label = styled.span`
   display: block;
   margin-bottom: 5px;

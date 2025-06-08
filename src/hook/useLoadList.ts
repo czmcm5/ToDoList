@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-
-export interface TodoItem {
-  title: string;
-  content: string;
-  hashTags: string;
-}
+import type { TodoItem } from "../model/TodoList";
 
 const getLocalStorage = (): TodoItem[] => {
   try {

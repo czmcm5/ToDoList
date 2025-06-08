@@ -1,10 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-
-export interface TodoItem {
-  title: string;
-  content: string;
-  hashTags: string;
-}
+import type { TodoItem } from "../model/TodoList";
 
 interface TodoContextType {
   todoList: TodoItem[];

@@ -1,83 +1,76 @@
-import { useState } from "react";
-import type { TodoItem } from "../context/TodoContext";
+import { useReducer, useState } from "react";
+import { initialState, reducer } from "../features/addTodoReducer";
+import type { TodoItem } from "../model/TodoList";
+import { saveList } from "../utils/list";
 
 const useAddList = (loadList?: (data: TodoItem) => void) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [hashTag, setHashTag] = useState<string>("");
-  const [hashTags, setHashTags] = useState<string[]>([]);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [isComposing, setIsComposing] = useState(false);
-
-  const settingTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setTitle(e.target.value);
-  const settingContent = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setContent(e.target.value);
-  const settingHashTag = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setHashTag(e.target.value.trim());
 
   const handleCompositionStart = () => setIsComposing(true);
   const handleCompositionEnd = () => setIsComposing(false);
 
+  const updateState = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    dispatch({
+      type: "update_field",
+      name: name as keyof TodoItem,
+      value,
+    });
+  };
+
   const addHashTag = (e: React.KeyboardEvent) => {
     if (isComposing) return;
-    if (hashTag.trim() === "") return;
+    if (e.key !== "Enter") return;
 
-    if (e.key === "Enter") {
-      e.preventDefault();
+    e.preventDefault();
 
-      if (hashTags.includes(hashTag.trim())) {
-        alert("이미 추가된 해시태그입니다.");
-        return;
-      }
-
-      setHashTags((prev) => [...prev, hashTag.trim()]);
-      setHashTag("");
+    if (state.hashTags.includes(state.hashTag.trim())) {
+      alert("이미 추가된 해시태그입니다.");
+      return;
     }
+
+    dispatch({ type: "add_hasTah" });
   };
 
   const removeHashTag = (idx: number) => {
-    setHashTags((prev) => prev.filter((_, i) => i !== idx));
+    dispatch({ type: "remove_hasTah", idx });
   };
 
   const submitForm = () => {
-    if (title.trim() === "") return alert("제목을 입력해주세요.");
+    if (state.title.trim() === "") {
+      alert("제목을 입력해주세요.");
+      return;
+    }
 
     const newTodoItem: TodoItem = {
-      title,
-      content,
-      hashTags: hashTags.join(", "),
+      title: state.title,
+      content: state.content,
+      hashTags: state.hashTags.join(", "),
     };
 
-    localStorage.setItem(
-      "todoList",
-      JSON.stringify([
-        ...JSON.parse(localStorage.getItem("todoList") || "[]"),
-        newTodoItem,
-      ])
-    );
+    // 저장
+    saveList(newTodoItem);
 
+    // List 로드
     if (loadList) {
       loadList(newTodoItem);
     }
 
-    setTitle("");
-    setContent("");
-    setHashTags([]);
+    // 폼 초기화
+    dispatch({ type: "reset" });
   };
 
   return {
-    title,
-    content,
-    hashTag,
-    hashTags,
-    settingTitle,
-    settingContent,
-    settingHashTag,
+    state,
+    updateState,
     addHashTag,
     removeHashTag,
     submitForm,
-    handleCompositionStart,
-    handleCompositionEnd,
+    composition: {
+      start: handleCompositionStart,
+      end: handleCompositionEnd,
+    },
   };
 };
 
