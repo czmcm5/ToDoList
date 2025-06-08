@@ -17,13 +17,13 @@ img {
   -moz-user-drag: none;
   -o-user-drag: none;
 }
-img.click {
-  cursor: pointer;
-}
+
 input {
-  border: 0;
-  border-bottom: 1px solid #d9d9d9;
-  outline: 0;
+  box-sizing: border-box;
+  padding: 1.2rem 0.7rem;
+  outline: none;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
 }
 
 /* Chrome, Safari, Edge, Opera */

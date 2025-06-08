@@ -4,34 +4,31 @@ import { useTodoContext } from "../../../context/TodoContext";
 import useAddList from "../../../hook/useAddList";
 
 const AddTodo = () => {
-  console.log("AddTodo 렌더링");
-
   const { loadList } = useTodoContext();
   const form = useAddList(loadList);
 
+  console.log("AddTodo 렌더링");
+
   return (
-    <section>
+    <FormBox>
       <h1>Add Todo</h1>
 
-      <LabelText htmlFor="title">제목</LabelText>
+      <Label>제목</Label>
       <InputBox
-        id="title"
         value={form.title}
         onChange={form.settingTitle}
         placeholder="할 일"
       />
 
-      <LabelText htmlFor="content">내용</LabelText>
+      <Label>내용</Label>
       <InputBox
-        id="content"
         value={form.content}
         onChange={form.settingContent}
         placeholder="상세내용"
       />
 
-      <LabelText htmlFor="hashTag">해시태그</LabelText>
+      <Label>해시태그</Label>
       <InputBox
-        id="hashTag"
         value={form.hashTag}
         onChange={form.settingHashTag}
         onKeyDown={form.addHashTag}
@@ -48,13 +45,23 @@ const AddTodo = () => {
       </TagsBox>
 
       <Btn onClick={form.submitForm}>+ 등록하기</Btn>
-    </section>
+    </FormBox>
   );
 };
 
 export default AddTodo;
 
-const LabelText = styled.label`
+const FormBox = styled.section`
+  position: relative;
+  flex: 1;
+  margin: 1rem;
+  padding: 1rem 2rem;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: ${ThemeColor.boxShadow};
+  overflow: auto;
+`;
+const Label = styled.span`
   display: block;
   margin-bottom: 5px;
 `;

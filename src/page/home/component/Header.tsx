@@ -1,14 +1,16 @@
 import styled from "styled-components";
 import ThemeColor from "../../../style/colorSet";
 import React from "react";
+import { logout } from "../../../utils/login";
 
 const Header = () => {
   console.log("Header 렌더링");
+  const username = !!localStorage.getItem("login");
 
   return (
     <Container>
       <div>Website todo</div>
-      <div className="click">로그인</div>
+      {username && <div onClick={logout}>로그아웃</div>}
     </Container>
   );
 };
@@ -25,7 +27,4 @@ const Container = styled.div`
   font-weight: bold;
   color: white;
   background-color: ${ThemeColor.main};
-  .click {
-    cursor: pointer;
-  }
 `;

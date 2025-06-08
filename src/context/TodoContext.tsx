@@ -23,6 +23,13 @@ const getLocalStorage = (): TodoItem[] => {
   }
 };
 
+export const useTodoContext = () => {
+  const context = useContext(TodoContext);
+  if (!context)
+    throw new Error("useTodoContext must be used within a TodoProvider");
+  return context;
+};
+
 export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
 
@@ -43,11 +50,4 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
     </TodoContext.Provider>
   );
-};
-
-export const useTodoContext = () => {
-  const context = useContext(TodoContext);
-  if (!context)
-    throw new Error("useTodoContext must be used within a TodoProvider");
-  return context;
 };
