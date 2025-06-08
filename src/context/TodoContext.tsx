@@ -1,13 +1,25 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import type { TodoItem } from "../model/TodoList";
+import { removeListItem } from "../utils/list";
 
-interface TodoContextType {
+interface TaskListContextType {
   todoList: TodoItem[];
-  loadList: (item: TodoItem) => void;
   removeItem: (title: string) => void;
 }
 
-const TodoContext = createContext<TodoContextType | undefined>(undefined);
+interface TodoContextType {
+  loadList: (item: TodoItem) => void;
+}
+
+const TaskListContext = createContext<TaskListContextType | null>(null);
+const AddTodoContext = createContext<TodoContextType | null>(null);
 
 const getLocalStorage = (): TodoItem[] => {
   try {
@@ -18,13 +30,6 @@ const getLocalStorage = (): TodoItem[] => {
   }
 };
 
-export const useTodoContext = () => {
-  const context = useContext(TodoContext);
-  if (!context)
-    throw new Error("useTodoContext must be used within a TodoProvider");
-  return context;
-};
-
 export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
 
@@ -32,17 +37,37 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
     setTodoList(getLocalStorage());
   }, []);
 
-  const loadList = (data: TodoItem) => setTodoList((prev) => [...prev, data]);
+  const loadList = useCallback((data: TodoItem) => {
+    setTodoList((prev) => [...prev, data]);
+  }, []);
 
   const removeItem = (title: string) => {
-    const updated = todoList.filter((item) => item.title !== title);
-    setTodoList(updated);
-    localStorage.setItem("todoList", JSON.stringify(updated));
+    if (window.confirm("정말로 삭제하시겠습니까?")) {
+      setTodoList(removeListItem(title));
+    }
   };
+  const addTodoValue = useMemo(() => ({ loadList }), [loadList]);
+  const taskListValue = { todoList, removeItem };
 
   return (
-    <TodoContext.Provider value={{ todoList, loadList, removeItem }}>
-      {children}
-    </TodoContext.Provider>
+    <AddTodoContext.Provider value={addTodoValue}>
+      <TaskListContext.Provider value={taskListValue}>
+        {children}
+      </TaskListContext.Provider>
+    </AddTodoContext.Provider>
   );
+};
+
+export const useTaskListContext = () => {
+  const context = useContext(TaskListContext);
+  if (!context)
+    throw new Error("useTaskListContext must be used within a TodoProvider");
+  return context;
+};
+
+export const useAddTodoContext = () => {
+  const context = useContext(AddTodoContext);
+  if (!context)
+    throw new Error("useAddTodoContext must be used within a TodoProvider");
+  return context;
 };

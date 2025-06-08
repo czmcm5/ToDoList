@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { useTodoContext } from "../../../context/TodoContext";
+import { useTaskListContext } from "../../../context/TodoContext";
 
 const TaskList = () => {
   console.log("Task List 렌더링");
-  const { todoList, removeItem } = useTodoContext();
+  const { todoList, removeItem } = useTaskListContext();
 
   return todoList.map((item, idx) => (
     <ListItem key={idx} onClick={() => removeItem(item.title)}>

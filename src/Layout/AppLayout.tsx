@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Header from "../page/home/component/Header";
+import Header from "./component/Header";
 import { Outlet } from "react-router-dom";
 import ThemeColor from "../style/colorSet";
 

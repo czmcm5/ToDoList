@@ -1,10 +1,11 @@
+import React from "react";
 import styled from "styled-components";
-import ThemeColor from "../../../style/colorSet";
-import { useTodoContext } from "../../../context/TodoContext";
+import { useAddTodoContext } from "../../../context/TodoContext";
 import useAddList from "../../../hook/useAddList";
+import ThemeColor from "../../../style/colorSet";
 
 const AddTodo = () => {
-  const { loadList } = useTodoContext();
+  const { loadList } = useAddTodoContext();
   const { state, updateState, composition, ...utils } = useAddList(loadList);
 
   console.log("AddTodo 렌더링");
@@ -50,7 +51,7 @@ const AddTodo = () => {
   );
 };
 
-export default AddTodo;
+export default React.memo(AddTodo);
 
 const Label = styled.span`
   display: block;

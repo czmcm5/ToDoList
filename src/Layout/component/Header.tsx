@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import ThemeColor from "../../../style/colorSet";
+import ThemeColor from "../../style/colorSet";
 import React from "react";
-import { logout } from "../../../utils/login";
+import { logout } from "../../utils/login";
 
 const Header = () => {
   console.log("Header 렌더링");
