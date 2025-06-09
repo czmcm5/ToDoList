@@ -46,6 +46,41 @@ const AddTodo = () => {
         ))}
       </TagsBox>
 
+      <InputBox
+        name="input1"
+        value={state.input1}
+        onChange={updateState}
+        placeholder="할 일"
+      />
+
+      <InputBox
+        name="input2"
+        value={state.input2}
+        onChange={updateState}
+        placeholder="할 일"
+      />
+
+      <InputBox
+        name="input3"
+        value={state.input3}
+        onChange={updateState}
+        placeholder="할 일"
+      />
+
+      <InputBox
+        name="input4"
+        value={state.input4}
+        onChange={updateState}
+        placeholder="할 일"
+      />
+
+      <InputBox
+        name="input5"
+        value={state.input5}
+        onChange={updateState}
+        placeholder="할 일"
+      />
+
       <Btn onClick={utils.submitForm}>+ 등록하기</Btn>
     </>
   );

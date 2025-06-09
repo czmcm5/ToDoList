@@ -17,6 +17,11 @@ export const initialState: AddTodo = {
   content: "",
   hashTag: "",
   hashTags: [],
+  input1: "",
+  input2: "",
+  input3: "",
+  input4: "",
+  input5: "",
 };
 
 export function reducer(state: AddTodo, action: Action): AddTodo {
